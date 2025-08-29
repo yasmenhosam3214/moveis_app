@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:moveis_app/home_screen.dart';
+import 'package:moveis_app/screens/login_screen.dart';
 
 void main() {
-  runApp(MovieApp());
+  runApp(const MainApp());
 }
 
-class MovieApp extends StatelessWidget {
+class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      routes: {HomeScreen.routeName: (context) => HomeScreen()},
-      initialRoute: HomeScreen.routeName,
+      home: LoginScreen()
     );
   }
 }
