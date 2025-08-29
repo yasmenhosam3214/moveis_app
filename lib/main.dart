@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:moveis_app/home_screen.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(MovieApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
+class MovieApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      routes: {HomeScreen.routeName: (context) => HomeScreen()},
+      initialRoute: HomeScreen.routeName,
     );
   }
 }
