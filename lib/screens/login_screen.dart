@@ -6,6 +6,8 @@ import 'package:moveis_app/screens/signup_screen.dart';
 import 'package:moveis_app/widgets/custom_text_feild.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const String routeName = "/login";
+
   const LoginScreen({super.key});
 
   @override
@@ -130,12 +132,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     const SizedBox(height: 15),
                     GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SignupScreen(),
-                          ),
-                        );
+                        Navigator.pushNamed(context, "/signup");
+
                       },
                       child: Text.rich(
                         TextSpan(

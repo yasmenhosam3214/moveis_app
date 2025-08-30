@@ -31,7 +31,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         );
       }
     } else if (buttonText == "Finish") {
-      Navigator.pushReplacementNamed(context, "/home");
+      Navigator.pushReplacementNamed(context, "/login");
     }
   }
 

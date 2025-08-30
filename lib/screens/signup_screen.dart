@@ -5,6 +5,8 @@ import 'package:moveis_app/core/app_colors.dart';
 import 'package:moveis_app/widgets/custom_text_feild.dart';
 
 class SignupScreen extends StatefulWidget {
+  static const String routeName = "/signup";
+
   const SignupScreen({super.key});
 
   @override
