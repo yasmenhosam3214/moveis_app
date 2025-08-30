@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(MoveiesApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MoveiesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      routes: {
+
+
+      },
+
     );
   }
 }
+
