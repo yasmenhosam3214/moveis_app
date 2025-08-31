@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moveis_app/core/app_colors.dart';
-import 'package:moveis_app/screens/signup_screen.dart';
-import 'package:moveis_app/widgets/custom_text_feild.dart';
+
+import '../../core/widgets/custom_text_feild.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = "/login";
@@ -101,11 +101,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     const SizedBox(height: 15),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "Forget Password ?",
-                        style: GoogleFonts.roboto(color: AppColors.amber),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, "/forget-password");
+                      },
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "Forget Password ?",
+                          style: GoogleFonts.roboto(color: AppColors.amber),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 35),

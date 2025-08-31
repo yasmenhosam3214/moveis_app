@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moveis_app/core/app_colors.dart';
-import 'package:moveis_app/widgets/custom_text_feild.dart';
+
+import '../../core/widgets/custom_text_feild.dart';
 
 class SignupScreen extends StatefulWidget {
   static const String routeName = "/signup";
