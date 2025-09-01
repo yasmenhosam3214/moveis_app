@@ -6,6 +6,7 @@ import 'package:moveis_app/screens/home/home_screen.dart';
 import 'package:moveis_app/screens/auth/login_screen.dart';
 import 'package:moveis_app/screens/auth/signup_screen.dart';
 import 'package:moveis_app/screens/onboarding/onboarding_screen.dart';
+import 'package:moveis_app/screens/profile/update_profile.dart';
 
 void main() {
   runApp(MoveiesApp());
@@ -16,7 +17,7 @@ class MoveiesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: OnboardingScreen.routeName,
+      initialRoute: UpdateProfile.routeName,
 
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
@@ -24,6 +25,7 @@ class MoveiesApp extends StatelessWidget {
         LoginScreen.routeName: (context) => LoginScreen(),
         SignupScreen.routeName: (context) => SignupScreen(),
         ForgetPasswordScreen.routeName: (context) => ForgetPasswordScreen(),
+        UpdateProfile.routeName: (context) => UpdateProfile(),
       },
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
