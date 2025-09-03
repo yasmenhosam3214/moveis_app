@@ -61,7 +61,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       controller: emailController,
                       prefixIcon: Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: SvgPicture.asset("assets/email.svg"),
+                        child: SvgPicture.asset("assets/icons/email.svg"),
                       ),
                       validator: (p0) => _validateEmail(p0),
                     ),
