@@ -52,7 +52,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 10),
-              Center(child: Image.asset('assets/avatar.png')),
+              Center(child: Image.asset('assets/avatar1.png')),
               SizedBox(height: 20),
               CustomTextField(
                 prefixIcon: Padding(
