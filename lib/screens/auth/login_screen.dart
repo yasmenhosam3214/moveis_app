@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:moveis_app/core/app_colors.dart';
+import 'package:moveis_app/core/uitls/app_colors.dart';
 
 import '../../core/widgets/custom_text_feild.dart';
 import '../../services/auth_service/cubit/auth_state.dart';

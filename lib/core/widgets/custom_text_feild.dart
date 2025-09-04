@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:moveis_app/core/app_colors.dart';
-import 'package:moveis_app/core/app_theme.dart';
+import 'package:moveis_app/core/uitls/app_colors.dart';
+import 'package:moveis_app/core/uitls/app_theme.dart';
 
 class CustomTextField extends StatefulWidget {
   final TextEditingController? controller;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:moveis_app/core/app_colors.dart';
-import 'package:moveis_app/core/app_theme.dart';
+import 'package:moveis_app/core/uitls/app_colors.dart';
+import 'package:moveis_app/core/uitls/app_theme.dart';
 import 'package:moveis_app/core/widgets/custom_text_feild.dart';
 import 'package:moveis_app/core/widgets/default_elevatedButton.dart';
 

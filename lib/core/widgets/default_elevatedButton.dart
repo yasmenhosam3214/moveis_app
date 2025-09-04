@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:moveis_app/core/app_colors.dart';
+import 'package:moveis_app/core/uitls/app_colors.dart';
 
 class DefaultElevatedbutton extends StatelessWidget {
   Color? backgroundColor;

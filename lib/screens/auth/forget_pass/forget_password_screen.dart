@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:moveis_app/core/app_theme.dart';
+import 'package:moveis_app/core/uitls/app_theme.dart';
 
 import '../../../core/widgets/custom_text_feild.dart';
 
@@ -82,11 +82,12 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                         },
                         child: Text(
                           'Verify Email',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ),
                         ),
                       ),
                     ),

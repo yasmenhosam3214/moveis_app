@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:moveis_app/core/app_theme.dart';
+import 'package:moveis_app/core/uitls/app_theme.dart';
 
 class DefaultTextFormField extends StatelessWidget {
   String hintText;
