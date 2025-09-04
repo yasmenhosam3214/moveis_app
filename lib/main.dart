@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moveis_app/core/app_theme.dart';
 import 'package:moveis_app/screens/auth/forget_pass/forget_password_screen.dart';
-import 'package:moveis_app/screens/home/home_screen.dart';
+import 'package:moveis_app/home_screen.dart';
 import 'package:moveis_app/screens/auth/login_screen.dart';
 import 'package:moveis_app/screens/auth/signup_screen.dart';
 import 'package:moveis_app/screens/onboarding/onboarding_screen.dart';
@@ -25,7 +25,7 @@ class MoveiesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: OnboardingScreen.routeName,
+      initialRoute: HomeScreen.routeName,
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
         OnboardingScreen.routeName: (context) => OnboardingScreen(),
