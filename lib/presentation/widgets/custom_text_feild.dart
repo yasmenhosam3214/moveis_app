@@ -49,7 +49,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       decoration: InputDecoration(
         hintText: widget.hintText,
         hintStyle: GoogleFonts.roboto(color: Colors.white70),
-        fillColor: AppColors.lightBlack,
+        fillColor: AppColors.black,
         filled: true,
         labelText: widget.labelText,
         labelStyle: GoogleFonts.roboto(color: Colors.white),
@@ -70,7 +70,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: AppTheme.black),
+          borderSide: BorderSide(color: AppColors.black),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

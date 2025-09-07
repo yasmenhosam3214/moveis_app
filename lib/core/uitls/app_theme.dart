@@ -1,39 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:moveis_app/core/uitls/app_colors.dart';
 
 class AppTheme {
-  static const Color background = Color(0xff121312);
-  static const Color primary = Color(0xFFF6BD00);
-  static const Color black = Color(0xFF121312);
-  static const Color white = Color(0xFFFFFFFF);
-  static const Color gray = Color(0xFF282A28);
-  static const Color red = Color(0xFFE82626);
   static ThemeData darkTheme = ThemeData(
-    scaffoldBackgroundColor: background,
+    scaffoldBackgroundColor: AppColors.background,
     appBarTheme: AppBarTheme(
       elevation: 0,
-      backgroundColor: background,
-      foregroundColor: primary,
+      backgroundColor: AppColors.background,
+      foregroundColor: AppColors.primary,
       centerTitle: true,
     ),
     inputDecorationTheme: InputDecorationTheme(
       hintStyle: TextStyle(
         fontWeight: FontWeight.w400,
         fontSize: 16,
-        color: white,
+        color: AppColors.white,
       ),
       enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: gray),
+        borderSide: BorderSide(color: AppColors.gray),
         borderRadius: BorderRadius.circular(16),
       ),
       focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: gray),
+        borderSide: BorderSide(color: AppColors.gray),
         borderRadius: BorderRadius.circular(16),
       ),
     ),
     textTheme: TextTheme(
-      titleSmall: TextStyle(color: primary, fontSize: 16),
+      titleSmall: TextStyle(color: AppColors.primary, fontSize: 16),
       titleMedium: TextStyle(
-        color: white,
+        color: AppColors.white,
         fontWeight: FontWeight.w200,
         fontSize: 14,
       ),

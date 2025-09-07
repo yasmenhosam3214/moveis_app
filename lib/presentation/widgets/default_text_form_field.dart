@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:moveis_app/core/uitls/app_colors.dart';
 import 'package:moveis_app/core/uitls/app_theme.dart';
 
 class DefaultTextFormField extends StatelessWidget {
@@ -22,7 +23,7 @@ class DefaultTextFormField extends StatelessWidget {
       controller: controller,
       decoration: InputDecoration(
         filled: true,
-        fillColor: AppTheme.gray,
+        fillColor: AppColors.gray,
         hintText: hintText,
         prefixIcon: SvgPicture.asset(
           'assets/icons/$prefixIconImageName.svg',

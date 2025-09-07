@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:moveis_app/core/uitls/app_colors.dart';
 import 'package:moveis_app/core/uitls/app_theme.dart';
-import 'package:moveis_app/core/widgets/custom_text_feild.dart';
-import 'package:moveis_app/core/widgets/default_elevatedButton.dart';
+import 'package:moveis_app/presentation/widgets/custom_text_feild.dart';
+import 'package:moveis_app/presentation/widgets/default_elevatedButton.dart';
 
 class UpdateProfile extends StatefulWidget {
   UpdateProfile({super.key});
@@ -85,14 +85,14 @@ class _UpdateProfileState extends State<UpdateProfile> {
               DefaultElevatedbutton(
                 text: 'Delete Account',
                 onPressed: () {},
-                backgroundColor: AppTheme.red,
-                foregroundColor: AppTheme.white,
+                backgroundColor: AppColors.red,
+                foregroundColor: AppColors.white,
               ),
               SizedBox(height: 20),
               DefaultElevatedbutton(
                 onPressed: () {},
                 text: 'Update Data',
-                backgroundColor: AppColors.amber,
+                backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.background,
               ),
               SizedBox(height: 10),
