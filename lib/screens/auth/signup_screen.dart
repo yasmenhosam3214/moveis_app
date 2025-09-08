@@ -121,13 +121,11 @@ class SignupScreenState extends State<SignupScreen> {
           if (state is AuthSuccess) {
             Fluttertoast.showToast(
               msg: "Welcome ${state.userResponse.data.name}, please login!",
+              backgroundColor: Colors.green,
+              textColor: Colors.white
             );
             Navigator.pushNamed(context, "/login");
           } else if (state is AuthFailure) {
-            final uniqueErrors = state.errors.toSet();
-            for (var error in uniqueErrors) {
-              Fluttertoast.showToast(msg: error, backgroundColor: Colors.red);
-            }
           }
         },
         child: BlocBuilder<AuthCubit, AuthState>(

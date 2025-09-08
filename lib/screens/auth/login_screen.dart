@@ -81,7 +81,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 Navigator.pushReplacementNamed(context, "/home");
               });
             }
-
             if (state is AuthFailure) {
               Future.microtask(() {
                 Fluttertoast.showToast(
