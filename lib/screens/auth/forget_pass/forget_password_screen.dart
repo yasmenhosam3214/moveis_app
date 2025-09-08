@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moveis_app/core/app_theme.dart';
-
 import '../../../core/widgets/custom_text_feild.dart';
+import '../../../services/auth_service/api/auth_service.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   static const String routeName = '/forget-password';
@@ -77,8 +77,27 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                           ),
                         ),
 
-                        onPressed: () {
-                          if (key.currentState!.validate()) {}
+                        onPressed: () async {
+                          if (key.currentState!.validate()) {
+                            try {
+                              final message = await AuthService()
+                                  .resetPassword(emailController.text);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('message')),
+                              );
+                            } catch (e) {
+                              String errorMessage = "Unknown error";
+
+                              if (e is ApiException) {
+                                errorMessage = e.messages.join(", ");
+                              } else {
+                                errorMessage = e.toString();
+                              }
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(e.toString())),
+                              );
+                            }
+                          }
                         },
                         child: Text(
                           'Verify Email',
