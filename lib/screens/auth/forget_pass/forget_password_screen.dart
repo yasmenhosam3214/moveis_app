@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moveis_app/core/app_theme.dart';
+import 'package:moveis_app/services/auth_service/api/auth_service.dart';
 import '../../../core/widgets/custom_text_feild.dart';
-import '../../../services/auth_service/api/auth_service.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   static const String routeName = '/forget-password';
@@ -76,23 +76,15 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-
                         onPressed: () async {
                           if (key.currentState!.validate()) {
                             try {
                               final message = await AuthService()
                                   .resetPassword(emailController.text);
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('message')),
+                                SnackBar(content: Text(message)),
                               );
                             } catch (e) {
-                              String errorMessage = "Unknown error";
-
-                              if (e is ApiException) {
-                                errorMessage = e.messages.join(", ");
-                              } else {
-                                errorMessage = e.toString();
-                              }
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text(e.toString())),
                               );
@@ -123,7 +115,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     if (value == null || value.isEmpty) {
       return "Please enter your email";
     }
-    // Simple email regex
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$');
     if (!emailRegex.hasMatch(value)) {
       return "Enter a valid email";
