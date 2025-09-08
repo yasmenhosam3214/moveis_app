@@ -28,6 +28,7 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthSuccess(userResponse));
     } on ApiException catch (e) {
       emit(AuthFailure(e.messages));
+      print(e.messages);
     } catch (e) {
       emit(AuthFailure([e.toString()]));
     }

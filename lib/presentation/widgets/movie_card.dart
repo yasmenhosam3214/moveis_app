@@ -38,7 +38,7 @@ class MovieCard extends StatelessWidget {
               width: width,
               height: height,
               color: Colors.grey,
-              child: const Icon(Icons.error, color: Colors.red),
+              child: const Icon(Icons.broken_image, color: Colors.red),
             ),
           ),
         ),

@@ -62,7 +62,7 @@ class HomeTab extends StatelessWidget {
                   children: [
                     Center(
                       child: Image.asset(
-                        "assets/images/Available Now.png",
+                        "assets/images/AvailableNow.png",
                         width: 267,
                         height: 93,
                         fit: BoxFit.contain,
@@ -87,7 +87,7 @@ class HomeTab extends StatelessWidget {
 
                     Center(
                       child: Image.asset(
-                        "assets/images/Watch Now.png",
+                        "assets/images/WatchNow.png",
                         width: 354,
                         height: 93,
                         fit: BoxFit.contain,
