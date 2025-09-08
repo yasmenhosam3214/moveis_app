@@ -1,4 +1,4 @@
-import 'package:moveis_app/services/auth_service/models/user_model.dart';
+import 'package:moveis_app/data/models/user_model.dart';
 
 abstract class AuthState {}
 
