@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:moveis_app/core/app_theme.dart';
-import '../../../core/widgets/custom_text_feild.dart';
+import 'package:moveis_app/core/uitls/app_colors.dart';
+import '../../../presentation/widgets/custom_text_feild.dart';
 import '../../../services/auth_service/api/auth_service.dart';
+
 
 class ForgetPasswordScreen extends StatefulWidget {
   static const String routeName = '/forget-password';
@@ -23,13 +24,13 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         backgroundColor: Colors.black,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.primary),
+          icon: Icon(Icons.arrow_back, color: AppColors.primary),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           "Forget Password",
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: AppTheme.primary,
+            color: AppColors.primary,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -71,34 +72,14 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       height: 50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppTheme.primary,
+                          backgroundColor: AppColors.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
 
-                        onPressed: () async {
-                          if (key.currentState!.validate()) {
-                            try {
-                              final message = await AuthService()
-                                  .resetPassword(emailController.text);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('message')),
-                              );
-                            } catch (e) {
-                              String errorMessage = "Unknown error";
 
-                              if (e is ApiException) {
-                                errorMessage = e.messages.join(", ");
-                              } else {
-                                errorMessage = e.toString();
-                              }
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(e.toString())),
-                              );
-                            }
-                          }
-                        },
+                        onPressed: () {  },
                         child: Text(
                           'Verify Email',
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(

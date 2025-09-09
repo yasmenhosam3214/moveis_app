@@ -6,6 +6,11 @@ import 'package:moveis_app/core/app_theme.dart';
 import 'package:moveis_app/core/widgets/custom_text_feild.dart';
 import 'package:moveis_app/core/widgets/default_elevatedButton.dart';
 
+import '../../core/uitls/app_colors.dart';
+import '../../core/uitls/app_theme.dart';
+import '../../presentation/widgets/custom_text_feild.dart';
+import '../../presentation/widgets/default_elevatedButton.dart';
+
 class UpdateProfile extends StatefulWidget {
   UpdateProfile({super.key});
   static const String routeName = 'update-profile';
@@ -85,14 +90,14 @@ class _UpdateProfileState extends State<UpdateProfile> {
               DefaultElevatedbutton(
                 text: 'Delete Account',
                 onPressed: () {},
-                backgroundColor: AppTheme.red,
-                foregroundColor: AppTheme.white,
+                backgroundColor: AppColors.primary,
+                foregroundColor: AppColors.white,
               ),
               SizedBox(height: 20),
               DefaultElevatedbutton(
                 onPressed: () {},
                 text: 'Update Data',
-                backgroundColor: AppColors.amber,
+                backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.background,
               ),
               SizedBox(height: 10),
