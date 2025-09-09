@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:moveis_app/core/uitls/app_colors.dart';
-import 'package:moveis_app/core/uitls/app_theme.dart';
-
-import '../../../presentation/widgets/custom_text_feild.dart';
+import 'package:moveis_app/core/app_theme.dart';
+import 'package:moveis_app/services/auth_service/api/auth_service.dart';
+import '../../../core/widgets/custom_text_feild.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   static const String routeName = '/forget-password';
@@ -24,13 +23,13 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
         backgroundColor: Colors.black,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.primary),
+          icon: const Icon(Icons.arrow_back, color: AppTheme.primary),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           "Forget Password",
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: AppColors.primary,
+            color: AppTheme.primary,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
@@ -72,23 +71,33 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                       height: 50,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
+                          backgroundColor: AppTheme.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-
-                        onPressed: () {
-                          if (key.currentState!.validate()) {}
+                        onPressed: () async {
+                          if (key.currentState!.validate()) {
+                            try {
+                              final message = await AuthService()
+                                  .resetPassword(emailController.text);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(message)),
+                              );
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text(e.toString())),
+                              );
+                            }
+                          }
                         },
                         child: Text(
                           'Verify Email',
-                          style: Theme.of(context).textTheme.bodyMedium
-                              ?.copyWith(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                     ),
@@ -106,7 +115,6 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     if (value == null || value.isEmpty) {
       return "Please enter your email";
     }
-    // Simple email regex
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}$');
     if (!emailRegex.hasMatch(value)) {
       return "Enter a valid email";
