@@ -6,13 +6,13 @@ class AuthService {
   final String baseUrl = "https://route-movie-apis.vercel.app";
 
   Future<UserResponse> register(
-      String username,
-      String email,
-      String password,
-      String confirmPassword,
-      String phone,
-      int avatarId,
-      ) async {
+    String username,
+    String email,
+    String password,
+    String confirmPassword,
+    String phone,
+    int avatarId,
+  ) async {
     final response = await http.post(
       Uri.parse("$baseUrl/auth/register"),
       headers: {"Content-Type": "application/json"},
@@ -64,39 +64,10 @@ class AuthService {
       }
     }
   }
-
-  //RESET PASSWORD
-  Future<String> resetPassword(String email) async {
-    final response = await http.patch(
-      Uri.parse("$baseUrl/auth/resetPassword"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"email": email}),
-    );
-
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      final Map<String, dynamic> jsonData = jsonDecode(response.body);
-      return jsonData["message"] ?? "Password reset request sent successfully";
-    } else {
-      final Map<String, dynamic> errorJson = jsonDecode(response.body);
-      final message = errorJson["message"];
-      if (message is List) {
-        throw ApiException(List<String>.from(message));
-      } else if (message is String) {
-        throw ApiException([message]);
-      } else {
-        throw ApiException(["Unknown error occurred"]);
-      }
-    }
-  }
 }
 
 class ApiException implements Exception {
   final List<String> messages;
 
   ApiException(this.messages);
-
-  @override
-  String toString() {
-    return messages.join(", ");
-  }
 }
