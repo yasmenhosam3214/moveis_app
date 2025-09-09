@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:moveis_app/services/auth_service/models/user_model.dart';
 
+import '../../../data/models/user_model.dart';
+
 class AuthService {
   final String baseUrl = "https://route-movie-apis.vercel.app";
 

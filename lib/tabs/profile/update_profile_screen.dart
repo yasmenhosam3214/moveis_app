@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:moveis_app/core/app_theme.dart';
-
-import '../../core/uitls/app_theme.dart';
+import '../../core/uitls/app_colors.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   static const String routeName = "/update";
@@ -19,17 +17,17 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.black,
+      backgroundColor: AppColors.black,
       appBar: AppBar(
-        backgroundColor: AppTheme.black,
+        backgroundColor: AppColors.black,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppTheme.primary),
+          icon:  Icon(Icons.arrow_back, color: AppColors.primary),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           "Pick Avatar",
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: AppTheme.primary,
+            color: AppColors.primary,
             fontSize: 18,
             fontWeight: FontWeight.w400,
           ),
@@ -41,7 +39,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 30),
+               SizedBox(height: 30),
 
 
               Center(
@@ -49,14 +47,14 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   onTap: () {
                     showModalBottomSheet(
                       context: context,
-                      backgroundColor: AppTheme.gray,
-                      shape: const RoundedRectangleBorder(
+                      backgroundColor: AppColors.gray,
+                      shape:  RoundedRectangleBorder(
                         borderRadius:
                         BorderRadius.vertical(top: Radius.circular(20)),
                       ),
                       builder: (context) {
                         return Padding(
-                          padding: const EdgeInsets.all(20.0),
+                          padding:  EdgeInsets.all(20.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -69,7 +67,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                 crossAxisSpacing: 16,
                                 mainAxisSpacing: 16,
                                 physics:
-                                const NeverScrollableScrollPhysics(),
+                                 NeverScrollableScrollPhysics(),
                                 children: List.generate(9, (index) {
                                   bool isSelected = selectedIndex == index;
                                   return GestureDetector(
@@ -84,12 +82,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                                     child: Container(
                                       decoration: BoxDecoration(
                                         color: isSelected
-                                            ? AppTheme.primary
-                                            : AppTheme.gray,
+                                            ? AppColors.primary
+                                            : AppColors.gray,
                                         borderRadius:
                                         BorderRadius.circular(12),
                                         border: Border.all(
-                                          color: AppTheme.primary,
+                                          color: AppColors.primary,
                                           width: 2,
                                         ),
                                       ),
@@ -110,7 +108,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   },
                   child: CircleAvatar(
                     radius: 60,
-                    backgroundColor: AppTheme.black,
+                    backgroundColor: AppColors.black,
                     backgroundImage: AssetImage(profileImage),
                   ),
                 ),
@@ -121,16 +119,16 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               SizedBox(
                 width: MediaQuery.sizeOf(context).width * 0.9,
                 child: TextFormField(
-                  style: const TextStyle(
+                  style:  TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 18,
-                    color: AppTheme.white,
+                    color: AppColors.white,
                   ),
                   decoration: InputDecoration(
                     hintText: "John Safwat",
-                    hintStyle: const TextStyle(color: AppTheme.white),
+                    hintStyle:  TextStyle(color: AppColors.white),
                     filled: true,
-                    fillColor: AppTheme.gray,
+                    fillColor: AppColors.gray,
                     prefixIcon: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: SvgPicture.asset(
@@ -139,7 +137,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                         height: 30,
                       ),
                     ),
-                    contentPadding: const EdgeInsets.symmetric(
+                    contentPadding:  EdgeInsets.symmetric(
                       vertical: 16,
                       horizontal: 16,
                     ),
@@ -151,30 +149,30 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 ),
               ),
 
-              const SizedBox(height: 20),
+               SizedBox(height: 20),
 
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: TextFormField(
-                  style: const TextStyle(
+                  style:  TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 18,
-                    color: AppTheme.white,
+                    color: AppColors.white,
                   ),
                   decoration: InputDecoration(
                     hintText: "01200000000",
-                    hintStyle: const TextStyle(color: AppTheme.white),
+                    hintStyle:  TextStyle(color: AppColors.white),
                     filled: true,
-                    fillColor: AppTheme.gray,
+                    fillColor: AppColors.gray,
                     prefixIcon: Padding(
-                      padding: const EdgeInsets.all(12.0),
+                      padding:  EdgeInsets.all(12.0),
                       child: SvgPicture.asset(
                         "assets/icons/phone.svg",
                         width: 24,
                         height: 24,
                       ),
                     ),
-                    contentPadding: const EdgeInsets.symmetric(
+                    contentPadding:  EdgeInsets.symmetric(
                       vertical: 16,
                       horizontal: 16,
                     ),
@@ -186,12 +184,12 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 ),
               ),
 
-              const SizedBox(height: 20),
+               SizedBox(height: 20),
 
               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 16),
+                  padding:  EdgeInsets.only(left: 16),
                   child: Text(
                     "Reset Password",
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
@@ -203,24 +201,24 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 ),
               ),
 
-              const SizedBox(height: 290),
+               SizedBox(height: 290),
 
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 height: 55,
                 child: TextFormField(
-                  style: const TextStyle(
+                  style:  TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 18,
-                    color: AppTheme.white,
+                    color: AppColors.white,
                   ),
                   textAlign: TextAlign.center,
                   textAlignVertical: TextAlignVertical.center,
                   decoration: InputDecoration(
                     hintText: "Delete Account",
-                    hintStyle: const TextStyle(color: AppTheme.white),
+                    hintStyle:  TextStyle(color: AppColors.white),
                     filled: true,
-                    fillColor: AppTheme.red,
+                    fillColor: AppColors.red,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,
@@ -229,24 +227,24 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 ),
               ),
 
-              const SizedBox(height: 20),
+               SizedBox(height: 20),
 
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 height: 55,
                 child: TextFormField(
-                  style: const TextStyle(
+                  style:  TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 18,
-                    color: AppTheme.black,
+                    color: AppColors.black,
                   ),
                   textAlign: TextAlign.center,
                   textAlignVertical: TextAlignVertical.center,
                   decoration: InputDecoration(
                     hintText: "Update Data",
-                    hintStyle: const TextStyle(color: AppTheme.black),
+                    hintStyle:  TextStyle(color: AppColors.black),
                     filled: true,
-                    fillColor: AppTheme.primary,
+                    fillColor: AppColors.primary,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none,

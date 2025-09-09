@@ -7,7 +7,6 @@ import 'package:moveis_app/home_screen.dart';
 import 'package:moveis_app/screens/auth/login_screen.dart';
 import 'package:moveis_app/screens/auth/signup_screen.dart';
 import 'package:moveis_app/screens/onboarding/onboarding_screen.dart';
-import 'package:moveis_app/screens/profile/update_profile_screen.dart';
 import 'package:moveis_app/services/auth_service/api/auth_service.dart';
 import 'package:moveis_app/services/auth_service/cubit/user_cubit.dart';
 import 'package:moveis_app/tabs/profile/update_profile_screen.dart';
