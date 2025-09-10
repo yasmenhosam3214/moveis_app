@@ -8,6 +8,7 @@ import 'package:moveis_app/presentation/bloc/movies_event.dart';
 import 'package:moveis_app/screens/home/home_tab.dart';
 import 'package:moveis_app/tabs/browse/browse_tab.dart';
 import 'package:moveis_app/tabs/profile/profile_tab.dart';
+import 'package:moveis_app/tabs/profile/update_profile_screen.dart';
 import 'package:moveis_app/tabs/search/search_tab.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -43,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       const SearchTab(),
       const BrowseTab(),
-      const ProfileTab(),
+     UpdateProfileScreen(),
     ];
 
     return Scaffold(

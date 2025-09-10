@@ -1,38 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:moveis_app/core/uitls/app_theme.dart';
-import 'package:moveis_app/screens/auth/forget_pass/forget_password_screen.dart';
 import 'package:moveis_app/home_screen.dart';
+import 'package:moveis_app/screens/onboarding/onboarding_screen.dart';
 import 'package:moveis_app/screens/auth/login_screen.dart';
 import 'package:moveis_app/screens/auth/signup_screen.dart';
-import 'package:moveis_app/screens/onboarding/onboarding_screen.dart';
-import 'package:moveis_app/tabs/profile/update_profile.dart';
-import 'package:moveis_app/services/auth_service/api/auth_service.dart';
+import 'package:moveis_app/screens/auth/forget_pass/forget_password_screen.dart';
+import 'package:moveis_app/tabs/profile/update_profile_screen.dart';
 import 'package:moveis_app/services/auth_service/cubit/user_cubit.dart';
+import 'package:moveis_app/services/auth_service/api/auth_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'core/app_theme.dart';
+import 'core/uitls/app_theme.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final prefs = await SharedPreferences.getInstance();
+  final token = prefs.getString('user_token');
+
   runApp(
     MultiBlocProvider(
       providers: [BlocProvider(create: (_) => AuthCubit(AuthService()))],
-      child: MoveiesApp(),
+      child: MoveiesApp(
+        initialRoute: token != null
+            ? HomeScreen.routeName
+            : OnboardingScreen.routeName,
+      ),
     ),
   );
 }
 
 class MoveiesApp extends StatelessWidget {
+  final String initialRoute;
+
+  const MoveiesApp({required this.initialRoute});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: OnboardingScreen.routeName,
+      initialRoute: initialRoute,
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
         OnboardingScreen.routeName: (context) => OnboardingScreen(),
         LoginScreen.routeName: (context) => LoginScreen(),
         SignupScreen.routeName: (context) => SignupScreen(),
         ForgetPasswordScreen.routeName: (context) => ForgetPasswordScreen(),
-        UpdateProfile.routeName: (context) => UpdateProfile(),
+        UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
       },
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
