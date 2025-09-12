@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:moveis_app/core/app_colors.dart';
+import 'package:moveis_app/core/uitls/app_colors.dart';
 import 'package:moveis_app/services/auth_service/api/auth_service.dart';
 
-import '../../core/widgets/custom_text_feild.dart';
+import '../../presentation/widgets/custom_text_feild.dart';
 import '../../services/auth_service/cubit/auth_state.dart';
 import '../../services/auth_service/cubit/user_cubit.dart';
 
@@ -107,7 +107,7 @@ class SignupScreenState extends State<SignupScreen> {
         backgroundColor: AppColors.background,
         title: Text(
           "Register",
-          style: GoogleFonts.roboto(color: AppColors.amber),
+          style: GoogleFonts.roboto(color: AppColors.primary),
         ),
         centerTitle: true,
         leading: IconButton(
@@ -121,13 +121,11 @@ class SignupScreenState extends State<SignupScreen> {
           if (state is AuthSuccess) {
             Fluttertoast.showToast(
               msg: "Welcome ${state.userResponse.data.name}, please login!",
+              backgroundColor: Colors.green,
+              textColor: Colors.white
             );
             Navigator.pushNamed(context, "/login");
           } else if (state is AuthFailure) {
-            final uniqueErrors = state.errors.toSet();
-            for (var error in uniqueErrors) {
-              Fluttertoast.showToast(msg: error, backgroundColor: Colors.red);
-            }
           }
         },
         child: BlocBuilder<AuthCubit, AuthState>(
@@ -153,7 +151,7 @@ class SignupScreenState extends State<SignupScreen> {
                                   });
                                 },
                                 child: Image.asset(
-                                  "assets/icons/avatar${images[index]}.png",
+                                  "assets/images/avatar_${images[index]}.png",
                                   width: (index == selectedIndex) ? 105 : 65,
                                   height: (index == selectedIndex) ? 105 : 65,
                                 ),
@@ -243,7 +241,7 @@ class SignupScreenState extends State<SignupScreen> {
                         height: 50,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.amber,
+                            backgroundColor: AppColors.primary,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
                             ),
@@ -278,7 +276,7 @@ class SignupScreenState extends State<SignupScreen> {
                             TextSpan(
                               text: " Login",
                               style: GoogleFonts.roboto(
-                                color: AppColors.amber,
+                                color: AppColors.primary,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
@@ -293,7 +291,7 @@ class SignupScreenState extends State<SignupScreen> {
                       decoration: BoxDecoration(
                         color: AppColors.background,
                         borderRadius: BorderRadius.circular(50),
-                        border: Border.all(color: AppColors.amber, width: 2),
+                        border: Border.all(color: AppColors.primary, width: 2),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -304,7 +302,7 @@ class SignupScreenState extends State<SignupScreen> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: AppColors.amber,
+                                  color: AppColors.primary,
                                   width: isSelectedEg ? 4 : 0,
                                 ),
                               ),
@@ -329,7 +327,7 @@ class SignupScreenState extends State<SignupScreen> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 border: Border.all(
-                                  color: AppColors.amber,
+                                  color: AppColors.primary,
                                   width: !isSelectedEg ? 4 : 0,
                                 ),
                               ),

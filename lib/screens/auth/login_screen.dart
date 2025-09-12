@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:moveis_app/core/app_colors.dart';
+import 'package:moveis_app/core/uitls/app_colors.dart';
 
-import '../../core/widgets/custom_text_feild.dart';
+import '../../presentation/widgets/custom_text_feild.dart';
 import '../../services/auth_service/cubit/auth_state.dart';
 import '../../services/auth_service/cubit/user_cubit.dart';
 
@@ -81,7 +81,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 Navigator.pushReplacementNamed(context, "/home");
               });
             }
-
             if (state is AuthFailure) {
               Future.microtask(() {
                 Fluttertoast.showToast(
@@ -138,7 +137,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             alignment: Alignment.centerRight,
                             child: Text(
                               "Forget Password ?",
-                              style: GoogleFonts.roboto(color: AppColors.amber),
+                              style: GoogleFonts.roboto(
+                                color: AppColors.primary,
+                              ),
                             ),
                           ),
                         ),
@@ -149,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 50,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.amber,
+                              backgroundColor: AppColors.primary,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(14),
                               ),
@@ -162,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: CircularProgressIndicator(
                                       strokeWidth: 2,
                                       valueColor: AlwaysStoppedAnimation<Color>(
-                                        AppColors.amber,
+                                        AppColors.primary,
                                       ),
                                     ),
                                   )
@@ -192,7 +193,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 TextSpan(
                                   text: " Create One",
                                   style: GoogleFonts.roboto(
-                                    color: AppColors.amber,
+                                    color: AppColors.primary,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
@@ -205,18 +206,20 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             const Expanded(
                               child: Divider(
-                                color: AppColors.amber,
+                                color: AppColors.primary,
                                 thickness: 1.5,
                                 indent: 50,
                               ),
                             ),
                             Text(
                               "  OR  ",
-                              style: GoogleFonts.roboto(color: AppColors.amber),
+                              style: GoogleFonts.roboto(
+                                color: AppColors.primary,
+                              ),
                             ),
                             const Expanded(
                               child: Divider(
-                                color: AppColors.amber,
+                                color: AppColors.primary,
                                 thickness: 1.5,
                                 endIndent: 50,
                               ),
@@ -230,7 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 50,
                           child: ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.amber,
+                              backgroundColor: AppColors.primary,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(14),
                               ),
@@ -255,7 +258,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: AppColors.background,
                             borderRadius: BorderRadius.circular(50),
                             border: Border.all(
-                              color: AppColors.amber,
+                              color: AppColors.primary,
                               width: 2,
                             ),
                           ),
@@ -268,7 +271,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: AppColors.amber,
+                                      color: AppColors.primary,
                                       width: isSelectedEg ? 4 : 0,
                                     ),
                                   ),
@@ -293,7 +296,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     border: Border.all(
-                                      color: AppColors.amber,
+                                      color: AppColors.primary,
                                       width: !isSelectedEg ? 4 : 0,
                                     ),
                                   ),

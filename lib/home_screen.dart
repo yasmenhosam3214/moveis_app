@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
-import 'tabs/home/home_tab.dart';
-import 'tabs/search/search_tab.dart';
-import 'tabs/browse/browse_tab.dart';
-import 'tabs/profile/profile_tab.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moveis_app/core/network/dio_client.dart';
+import 'package:moveis_app/data/models/movies_remote_data_source.dart';
+import 'package:moveis_app/data/repositories/movies_repository_impl.dart';
+import 'package:moveis_app/presentation/bloc/movies_bloc.dart';
+import 'package:moveis_app/presentation/bloc/movies_event.dart';
+import 'package:moveis_app/screens/home/home_tab.dart';
+import 'package:moveis_app/tabs/browse/browse_tab.dart';
+import 'package:moveis_app/tabs/profile/profile_tab.dart';
+import 'package:moveis_app/tabs/profile/update_profile_screen.dart';
+import 'package:moveis_app/tabs/search/search_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "/home";
+
+  HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -14,7 +23,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int currentIndex = 0;
 
-  final List<Widget> tabs = [HomeTab(), SearchTab(), BrowseTab(), ProfileTab()];
+  late final MoviesRepositoryImpl moviesRepository = MoviesRepositoryImpl(
+    MoviesRemoteDataSource(DioClient.instance),
+  );
 
   Widget buildNavIcon(String imagePath, String activePath, bool isActive) {
     return Image.asset(
@@ -26,12 +37,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tabs = [
+      BlocProvider(
+        create: (_) => MoviesBloc(moviesRepository)..add(const MoviesStarted()),
+        child: HomeTab(),
+      ),
+      const SearchTab(),
+      const BrowseTab(),
+     UpdateProfileScreen(),
+    ];
+
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      extendBody: true,
-
       body: tabs[currentIndex],
-
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 16, left: 9, right: 9),
         child: Container(

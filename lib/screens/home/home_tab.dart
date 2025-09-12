@@ -1,122 +1,156 @@
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:moveis_app/presentation/bloc/movies_bloc.dart';
+import 'package:moveis_app/presentation/bloc/movies_state.dart';
+import 'package:moveis_app/presentation/widgets/movie_card.dart';
 
 class HomeTab extends StatelessWidget {
-  const HomeTab({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // 🔹 Available Now
-            Padding(
-              padding: const EdgeInsets.all(12.0),
+    return Scaffold(
+      body: BlocBuilder<MoviesBloc, MoviesState>(
+        builder: (context, state) {
+          if (state.status == MoviesStatus.loading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (state.status == MoviesStatus.failure) {
+            return Center(
               child: Text(
-                "Available Now",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+                state.errorMessage ?? "Error",
+                style: const TextStyle(color: Colors.red),
               ),
-            ),
+            );
+          }
 
-            // 🔹 Slider للأفلام
-            SizedBox(
-              height: 280,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  buildMovieCard("assets/images/1917.jpg", "7.7"),
-                  buildMovieCard("assets/images/captain.jpg", "7.7"),
-                  buildMovieCard("assets/images/batman.jpg", "8.5"),
-                ],
-              ),
-            ),
-
-            // 🔹 Watch Now
-            Padding(
-              padding: const EdgeInsets.all(12.0),
+          final movies = state.movies;
+          if (movies.isEmpty) {
+            return const Center(
               child: Text(
-                "Watch Now",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 26,
-                  fontWeight: FontWeight.bold,
-                ),
+                "No Movies Found",
+                style: TextStyle(color: Colors.white),
               ),
-            ),
+            );
+          }
 
-            // 🔹 قسم Action
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12.0),
-                  child: Text(
-                    "Action",
-                    style: TextStyle(color: Colors.white, fontSize: 18),
+          return Stack(
+            children: [
+             
+              Image.asset(
+                "assets/images/onbording6.png",
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.black.withOpacity(0.5),
+                      Colors.black.withOpacity(0.85),
+                    ],
                   ),
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    "See More →",
-                    style: TextStyle(color: Colors.yellow),
-                  ),
-                ),
-              ],
-            ),
-
-            // 🔹 أفلام Action
-            SizedBox(
-              height: 200,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  buildMovieCard("assets/images/captain.jpg", "7.7"),
-                  buildMovieCard("assets/images/batman.jpg", "8.2"),
-                  buildMovieCard("assets/images/blackwidow.jpg", "7.0"),
-                ],
               ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
-  // 🔹 Widget للفيلم (Card)
-  Widget buildMovieCard(String imagePath, String rating) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Stack(
-        alignment: Alignment.topLeft,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Image.asset(imagePath, width: 160, fit: BoxFit.cover),
-          ),
-          Container(
-            margin: const EdgeInsets.all(8),
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-            decoration: BoxDecoration(
-              color: Colors.black54,
-              borderRadius: BorderRadius.circular(6),
-            ),
-            child: Row(
-              children: [
-                Text(
-                  rating,
-                  style: const TextStyle(color: Colors.white, fontSize: 12),
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Image.asset(
+                        "assets/images/AvailableNow.png",
+                        width: 267,
+                        height: 93,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    CarouselSlider(
+                      items: movies.take(6).map((m) {
+                        return MovieCard(
+                          title: m.title,
+                          imageUrl: m.largeCoverImage,
+                          rating: m.rating,
+                        );
+                      }).toList(),
+                      options: CarouselOptions(
+                        height: 320,
+                        enlargeCenterPage: true,
+                        viewportFraction: 0.5,
+                      ),
+                    ),
+
+                    Center(
+                      child: Image.asset(
+                        "assets/images/WatchNow.png",
+                        width: 354,
+                        height: 93,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text(
+                            "Action",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                "See More",
+                                style: TextStyle(
+                                  color: Color(0xFFF6BD00),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                color: Color(0xFFF6BD00),
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(
+                      height: 180,
+                      child: ListView.separated(
+                        padding: const EdgeInsets.all(12),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          final m = movies[index];
+                          return MovieCard(
+                            title: m.title,
+                            imageUrl: m.mediumCoverImage ?? m.largeCoverImage,
+                            rating: m.rating,
+                          );
+                        },
+                        separatorBuilder: (_, __) => const SizedBox(width: 12),
+                        itemCount: movies.length > 10 ? 10 : movies.length,
+                      ),
+                    ),
+                  ],
                 ),
-                const Icon(Icons.star, color: Colors.yellow, size: 14),
-              ],
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }

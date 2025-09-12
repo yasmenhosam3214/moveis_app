@@ -1,179 +1,157 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:moveis_app/presentation/bloc/movies_bloc.dart';
+import 'package:moveis_app/presentation/bloc/movies_state.dart';
+
+import 'package:moveis_app/presentation/widgets/movie_card.dart';
 
 class HomeTab extends StatelessWidget {
-  final List<String> movies = [
-    "assets/images/card1.jpg",
-    "assets/images/card2.png",
-    "assets/images/card3.jpg",
-  ];
+  const HomeTab({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Image.asset(
-            "assets/images/onbording6.png",
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: double.infinity,
-          ),
+      body: BlocBuilder<MoviesBloc, MoviesState>(
+        builder: (context, state) {
+          if (state.status == MoviesStatus.loading) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [
-                  Colors.black.withOpacity(0.5),
-                  Colors.black.withOpacity(0.85),
-                ],
+          if (state.status == MoviesStatus.failure) {
+            return Center(
+              child: Text(
+                state.errorMessage ?? "Error",
+                style: const TextStyle(color: Colors.red),
               ),
-            ),
-          ),
+            );
+          }
 
-          SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Image.asset(
-                    "assets/images/Available Now.png",
-                    width: 267,
-                    height: 93,
-                    fit: BoxFit.contain,
+          final movies = state.movies;
+          if (movies.isEmpty) {
+            return const Center(
+              child: Text(
+                "No Movies Found",
+                style: TextStyle(color: Colors.white),
+              ),
+            );
+          }
+
+          return Stack(
+            children: [
+              Image.asset(
+                "assets/images/onbording6.png",
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.black.withOpacity(0.5),
+                      Colors.black.withOpacity(0.85),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 20),
-
-                CarouselSlider(
-                  items: movies.map((imgPath) {
-                    return _buildMovieCard(imgPath);
-                  }).toList(),
-                  options: CarouselOptions(
-                    height: 320,
-                    enlargeCenterPage: true,
-                    viewportFraction: 0.5,
-                    enableInfiniteScroll: true,
-                    autoPlay: false,
-                  ),
-                ),
-
-                Center(
-                  child: Image.asset(
-                    "assets/images/Watch Now.png",
-                    width: 354,
-                    height: 93,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "Action",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold,
-                        ),
+              ),
+              SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Image.asset(
+                        "assets/images/AvailableNow.png",
+                        width: 267,
+                        height: 93,
                       ),
-                      Row(
+                    ),
+                    const SizedBox(height: 20),
+                    CarouselSlider(
+                      items: movies.take(6).map((m) {
+                        return MovieCard(
+                          title: m.title,
+                          imageUrl: m.largeCoverImage,
+                          rating: m.rating,
+                        );
+                      }).toList(),
+                      options: CarouselOptions(
+                        height: 320,
+                        enlargeCenterPage: true,
+                        viewportFraction: 0.5,
+                        enableInfiniteScroll: false,
+                      ),
+                    ),
+                    Center(
+                      child: Image.asset(
+                        "assets/images/WatchNow.png",
+                        width: 354,
+                        height: 93,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 12,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
                           Text(
-                            "See More",
+                            "Action",
                             style: TextStyle(
-                              color: Color(0xFFF6BD00),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Icon(
-                            Icons.arrow_forward,
-                            color: Color(0xFFF6BD00),
-                            size: 20,
+                          Row(
+                            children: [
+                              Text(
+                                "See More",
+                                style: TextStyle(
+                                  color: Color(0xFFF6BD00),
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              Icon(
+                                Icons.arrow_forward,
+                                color: Color(0xFFF6BD00),
+                                size: 20,
+                              ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(
+                      height: 180,
+                      child: ListView.separated(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          final m = movies[index];
+                          return MovieCard(
+                            title: m.title,
+                            imageUrl: m.mediumCoverImage ?? m.largeCoverImage,
+                            rating: m.rating,
+                            small: true,
+                          );
+                        },
+                        separatorBuilder: (_, __) => const SizedBox(width: 12),
+                        itemCount: movies.length > 10 ? 10 : movies.length,
+                      ),
+                    ),
+                  ],
                 ),
-
-                SizedBox(
-                  height: 180,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      _buildMovieCard(
-                        "assets/images/photo1seemore.png",
-                        small: true,
-                      ),
-                      const SizedBox(width: 12),
-                      _buildMovieCard(
-                        "assets/images/photo2seemore.png",
-                        small: true,
-                      ),
-                      const SizedBox(width: 12),
-                      _buildMovieCard(
-                        "assets/images/photo3seemore.jpg",
-                        small: true,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
-    );
-  }
-
-  Widget _buildMovieCard(String imgPath, {bool small = false}) {
-    double width = small ? 120 : 200;
-    double height = small ? 180 : 300;
-
-    return Stack(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(16),
-          child: Image.asset(
-            imgPath,
-            width: width,
-            height: height,
-            fit: BoxFit.cover,
-          ),
-        ),
-        Positioned(
-          top: 9,
-          left: 9,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.6),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Row(
-              children: const [
-                Icon(Icons.star, color: Colors.yellow, size: 14),
-                SizedBox(width: 3),
-                Text(
-                  "7.7",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

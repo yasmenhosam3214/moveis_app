@@ -1,4 +1,6 @@
-import 'package:moveis_app/services/auth_service/models/user_model.dart';
+import 'package:moveis_app/data/models/user_model.dart';
+
+import '../models/user_profile.dart';
 
 abstract class AuthState {}
 
@@ -23,3 +25,28 @@ class AuthFailure extends AuthState {
 
   AuthFailure(this.errors);
 }
+
+class PassChanged extends AuthState {
+  final String response;
+
+  PassChanged(this.response);
+}
+
+class PassFailedChanged extends AuthState {
+  final String response;
+
+  PassFailedChanged(this.response);
+}
+
+class ProfileUpdated extends AuthState {
+  final String response;
+
+  ProfileUpdated(this.response);
+}
+
+class ProfileFetched extends AuthState {
+  final UserProfile profile;
+
+  ProfileFetched(this.profile);
+}
+
