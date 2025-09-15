@@ -32,6 +32,16 @@ class AppTheme {
         fontWeight: FontWeight.w200,
         fontSize: 14,
       ),
+      titleLarge: TextStyle(
+        color: Colors.grey,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+      headlineSmall: TextStyle(
+        color: Colors.white,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
     ),
   );
 }

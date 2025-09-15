@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moveis_app/home_screen.dart';
+import 'package:moveis_app/screens/details/movie_detail_screen.dart';
 import 'package:moveis_app/screens/onboarding/onboarding_screen.dart';
 import 'package:moveis_app/screens/auth/login_screen.dart';
 import 'package:moveis_app/screens/auth/signup_screen.dart';
@@ -10,7 +11,7 @@ import 'package:moveis_app/services/auth_service/cubit/user_cubit.dart';
 import 'package:moveis_app/services/auth_service/api/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'core/app_theme.dart';
+
 import 'core/uitls/app_theme.dart';
 
 void main() async {
@@ -40,7 +41,7 @@ class MoveiesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: initialRoute,
+      initialRoute: MovieDetailScreen.routeName,
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
         OnboardingScreen.routeName: (context) => OnboardingScreen(),
@@ -48,6 +49,7 @@ class MoveiesApp extends StatelessWidget {
         SignupScreen.routeName: (context) => SignupScreen(),
         ForgetPasswordScreen.routeName: (context) => ForgetPasswordScreen(),
         UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
+        MovieDetailScreen.routeName: (context) => MovieDetailScreen(),
       },
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
