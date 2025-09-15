@@ -19,6 +19,7 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
   final token = prefs.getString('user_token');
+  print(token);
 
   runApp(
     MultiBlocProvider(
@@ -41,7 +42,7 @@ class MoveiesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: MovieDetailScreen.routeName,
+      initialRoute: initialRoute,
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
         OnboardingScreen.routeName: (context) => OnboardingScreen(),

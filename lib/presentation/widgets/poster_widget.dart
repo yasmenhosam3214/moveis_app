@@ -14,7 +14,7 @@ class PosterWidget extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             image: DecorationImage(
-              image: AssetImage(imgPath),
+              image: NetworkImage(imgPath),
               fit: BoxFit.cover,
             ),
           ),
