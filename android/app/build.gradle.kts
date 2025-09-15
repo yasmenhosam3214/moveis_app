@@ -8,7 +8,7 @@ plugins {
 android {
     namespace = "com.example.moveis_app"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = "29.0.13599879"
+    ndkVersion = "26.2.11394342"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11

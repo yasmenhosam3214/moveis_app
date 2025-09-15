@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moveis_app/core/uitls/app_colors.dart';
@@ -10,20 +11,22 @@ import 'package:moveis_app/presentation/widgets/poster_widget.dart';
 import 'package:moveis_app/screens/details/build_bottom_stat.dart';
 
 class MovieDetailScreen extends StatelessWidget {
-  final int movieId;
   static const String routeName = '/MovieDetailScreen';
 
-  const MovieDetailScreen({super.key, this.movieId = 0});
+  const MovieDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final movieID = ModalRoute.of(context)!.settings.arguments as int;
+    print(movieID);
+
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
     final topHeight = screenHeight * 0.65;
     TextTheme textTheme = Theme.of(context).textTheme;
 
     return BlocProvider(
-      create: (_) => MovieDetailBloc()..add(LoadMovieDetail(movieId)),
+      create: (_) => MovieDetailBloc()..add(LoadMovieDetail(movieID)),
       child: Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
@@ -41,10 +44,11 @@ class MovieDetailScreen extends StatelessWidget {
                           Container(
                             height: topHeight,
                             width: double.infinity,
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               image: DecorationImage(
-                                image: AssetImage(
-                                  "assets/images/DoctorStrange.png",
+                                image: NetworkImage(
+                                  movie["image"] ??
+                                      "https://via.placeholder.com/300x450",
                                 ),
                                 fit: BoxFit.cover,
                               ),
@@ -54,7 +58,7 @@ class MovieDetailScreen extends StatelessWidget {
                             top: 12,
                             left: 16,
                             child: IconButton(
-                              onPressed: () {},
+                              onPressed: () => Navigator.pop(context),
                               icon: Image.asset('assets/icons/arrow.png'),
                             ),
                           ),
@@ -69,28 +73,13 @@ class MovieDetailScreen extends StatelessWidget {
                             ),
                           ),
                           Positioned(
-                            top: topHeight * 0.4,
-                            left: 0,
-                            right: 0,
-                            child: Center(
-                              child: InkWell(
-                                onTap: () {},
-                                child: Image.asset(
-                                  'assets/images/Iconsplay.png',
-                                  width: 97,
-                                  height: 97,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
                             top: topHeight * 0.82,
                             left: 16,
                             right: 16,
                             child: Column(
                               children: [
                                 Text(
-                                  movie["title"],
+                                  movie["title"] ?? "Unknown",
                                   textAlign: TextAlign.center,
                                   style: textTheme.headlineSmall?.copyWith(
                                     color: AppColors.white,
@@ -98,8 +87,10 @@ class MovieDetailScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  movie["year"],
-                                  style: textTheme.titleLarge,
+                                  movie["year"] ?? "",
+                                  style: textTheme.titleLarge?.copyWith(
+                                    color: Colors.white70,
+                                  ),
                                 ),
                               ],
                             ),
@@ -120,6 +111,7 @@ class MovieDetailScreen extends StatelessWidget {
                           children: [
                             const SizedBox(height: 20),
 
+                            // 🔹 Watch Button
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 20,
@@ -137,6 +129,7 @@ class MovieDetailScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 16),
 
+                            // 🔹 Bottom Stats
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 32,
@@ -145,36 +138,31 @@ class MovieDetailScreen extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  buildBottomStat(Icons.favorite, "15"),
-                                  const SizedBox(width: 16),
-                                  buildBottomStat(Icons.comment, "90"),
-                                  const SizedBox(width: 16),
-                                  buildBottomStat(Icons.star, "7.6"),
+                                  Padding(
+                                    padding: const EdgeInsets.all(1.0),
+                                    child: buildBottomStat(
+                                      Icons.favorite,
+                                      movie['like_count'],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(1.0),
+                                    child: buildBottomStat(
+                                      Icons.timelapse_sharp,
+                                      "${movie['time']}",
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(1.0),
+                                    child: buildBottomStat(
+                                      Icons.star,
+                                      "${movie["rate"]}" ?? "N/A",
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
                             const SizedBox(height: 20),
-
-                            // Screen Shots
-                            _buildSectionTitle("Screen Shots"),
-                            Column(
-                              children: [
-                                _buildImage(
-                                  "assets/images/large-screenshot1.png",
-                                ),
-                                const SizedBox(height: 12),
-                                _buildImage(
-                                  "assets/images/large-screenshot2.png",
-                                ),
-                                const SizedBox(height: 12),
-                                _buildImage(
-                                  "assets/images/large-screenshot3.png",
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 20),
-
-                            // Similar Grid
                             _buildSectionTitle("Similar"),
                             Padding(
                               padding: const EdgeInsets.symmetric(
@@ -193,9 +181,18 @@ class MovieDetailScreen extends StatelessWidget {
                                     ),
                                 itemBuilder: (context, index) {
                                   final item = movie["similar"][index];
-                                  return PosterWidget(
-                                    imgPath: item["img"],
-                                    rating: item["rating"],
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        "/MovieDetailScreen",
+                                        arguments: item['id'],
+                                      );
+                                    },
+                                    child: PosterWidget(
+                                      imgPath: item["medium_cover_image"],
+                                      rating: item["rating"].toString(),
+                                    ),
                                   );
                                 },
                               ),
@@ -206,7 +203,7 @@ class MovieDetailScreen extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(12.0),
                               child: Text(
-                                "Following the events of Spider-Man No Way Home, Doctor Strange unwittingly casts a forbidden spell that accidentally opens up the multiverse...",
+                                movie["summary"] ?? "No description available.",
                                 style: const TextStyle(
                                   color: AppColors.white,
                                   fontSize: 16,
@@ -215,43 +212,44 @@ class MovieDetailScreen extends StatelessWidget {
                               ),
                             ),
 
-                            _buildSectionTitle("Cast"),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
+                            // if ((movie["cast"] as List).isNotEmpty) ...[
+                            //   _buildSectionTitle("Cast"),
+                            //   Padding(
+                            //     padding: const EdgeInsets.symmetric(
+                            //       horizontal: 12,
+                            //     ),
+                            //     child: Column(
+                            //       children: (movie["cast"] as List)
+                            //           .map<Widget>(
+                            //             (cast) => CastCard(
+                            //               name: cast["name"] ?? "",
+                            //               role: cast["character_name"] ?? "",
+                            //               img:
+                            //                   cast["url_small_image"] ??
+                            //                   "https://via.placeholder.com/100",
+                            //               rating: movie["rating"] ?? "N/A",
+                            //             ),
+                            //           )
+                            //           .toList(),
+                            //     ),
+                            //   ),
+                            //   const SizedBox(height: 20),
+                            // ],
+                            if ((movie["genres"] as List).isNotEmpty) ...[
+                              _buildSectionTitle("Genres"),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                ),
+                                child: Wrap(
+                                  spacing: 10,
+                                  children: (movie["genres"] as List)
+                                      .map<Widget>((g) => _buildChip(g))
+                                      .toList(),
+                                ),
                               ),
-                              child: Column(
-                                children: movie["cast"]
-                                    .map<Widget>(
-                                      (cast) => CastCard(
-                                        name: cast["name"],
-                                        role: cast["role"],
-                                        img: cast["img"],
-                                        rating: cast["rating"],
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-
-                            _buildSectionTitle("Genres"),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                              ),
-                              child: Wrap(
-                                spacing: 10,
-                                children: [
-                                  _buildChip("Action"),
-                                  _buildChip("Sci-Fi"),
-                                  _buildChip("Adventure"),
-                                  _buildChip("Fantasy"),
-                                  _buildChip("Horror"),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 30),
+                              const SizedBox(height: 30),
+                            ],
                           ],
                         ),
                       ),
@@ -292,23 +290,11 @@ class MovieDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildImage(String path) {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 12),
-      height: 180,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        image: DecorationImage(image: AssetImage(path), fit: BoxFit.cover),
-      ),
-    );
-  }
-
   Widget _buildChip(String label) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Chip(
-        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
         side: const BorderSide(width: 0),
         backgroundColor: AppColors.black,
         label: Text(
