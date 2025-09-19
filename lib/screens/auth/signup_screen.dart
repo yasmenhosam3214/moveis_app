@@ -151,7 +151,7 @@ class SignupScreenState extends State<SignupScreen> {
                                   });
                                 },
                                 child: Image.asset(
-                                  "assets/icons/avatar${images[index]}.png",
+                                  "assets/images/avatar_${images[index]}.png",
                                   width: (index == selectedIndex) ? 105 : 65,
                                   height: (index == selectedIndex) ? 105 : 65,
                                 ),

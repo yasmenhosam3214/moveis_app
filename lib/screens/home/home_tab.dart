@@ -36,7 +36,6 @@ class HomeTab extends StatelessWidget {
 
           return Stack(
             children: [
-             
               Image.asset(
                 "assets/images/onbording6.png",
                 fit: BoxFit.cover,
@@ -72,10 +71,19 @@ class HomeTab extends StatelessWidget {
 
                     CarouselSlider(
                       items: movies.take(6).map((m) {
-                        return MovieCard(
-                          title: m.title,
-                          imageUrl: m.largeCoverImage,
-                          rating: m.rating,
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              "/MovieDetailScreen",
+                              arguments: m.id,
+                            );
+                          },
+                          child: MovieCard(
+                            title: m.title,
+                            imageUrl: m.largeCoverImage,
+                            rating: m.rating,
+                          ),
                         );
                       }).toList(),
                       options: CarouselOptions(
@@ -135,10 +143,19 @@ class HomeTab extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           final m = movies[index];
-                          return MovieCard(
-                            title: m.title,
-                            imageUrl: m.mediumCoverImage ?? m.largeCoverImage,
-                            rating: m.rating,
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                "/MovieDetailScreen",
+                                arguments: m.id,
+                              );
+                            },
+                            child: MovieCard(
+                              title: m.title,
+                              imageUrl: m.mediumCoverImage ?? m.largeCoverImage,
+                              rating: m.rating,
+                            ),
                           );
                         },
                         separatorBuilder: (_, __) => const SizedBox(width: 12),

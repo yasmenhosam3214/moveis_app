@@ -78,8 +78,21 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-
-                        onPressed: () {  },
+                        onPressed: () async {
+                          if (key.currentState!.validate()) {
+                            // try {
+                            //   final message = await AuthService()
+                            //       .resetPassword(oldPass: '', newPass: '', token: '');
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     SnackBar(content: Text(message)),
+                            //   );
+                            // } catch (e) {
+                            //   ScaffoldMessenger.of(context).showSnackBar(
+                            //     SnackBar(content: Text(e.toString())),
+                            //   );
+                            // }
+                          }
+                        },
                         child: Text(
                           'Verify Email',
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
