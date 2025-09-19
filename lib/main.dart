@@ -6,9 +6,11 @@ import 'package:moveis_app/screens/onboarding/onboarding_screen.dart';
 import 'package:moveis_app/screens/auth/login_screen.dart';
 import 'package:moveis_app/screens/auth/signup_screen.dart';
 import 'package:moveis_app/screens/auth/forget_pass/forget_password_screen.dart';
+import 'package:moveis_app/tabs/browse/browse_screen.dart';
 import 'package:moveis_app/tabs/profile/update_profile_screen.dart';
 import 'package:moveis_app/services/auth_service/cubit/user_cubit.dart';
 import 'package:moveis_app/services/auth_service/api/auth_service.dart';
+import 'package:moveis_app/tabs/search/search_tab.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -51,6 +53,8 @@ class MoveiesApp extends StatelessWidget {
         ForgetPasswordScreen.routeName: (context) => ForgetPasswordScreen(),
         UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
         MovieDetailScreen.routeName: (context) => MovieDetailScreen(),
+        BrowseScreen.routeName: (context) => const BrowseScreen(),
+        SearchTab.routeName: (context) => SearchTab(),
       },
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
