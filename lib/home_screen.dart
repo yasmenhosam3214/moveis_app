@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moveis_app/core/network/dio_client.dart';
+import 'package:moveis_app/core/network/dio_Client.dart';
 import 'package:moveis_app/data/models/movies_remote_data_source.dart';
 import 'package:moveis_app/data/repositories/movies_repository_impl.dart';
 import 'package:moveis_app/presentation/bloc/movies_bloc.dart';
 import 'package:moveis_app/presentation/bloc/movies_event.dart';
 import 'package:moveis_app/screens/home/home_tab.dart';
-import 'package:moveis_app/tabs/browse/browse_tab.dart';
-import 'package:moveis_app/tabs/profile/profile_tab.dart';
+import 'package:moveis_app/tabs/browse/browse_screen.dart';
 import 'package:moveis_app/tabs/profile/update_profile_screen.dart';
 import 'package:moveis_app/tabs/search/search_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "/home";
 
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -42,13 +41,13 @@ class _HomeScreenState extends State<HomeScreen> {
         create: (_) => MoviesBloc(moviesRepository)..add(const MoviesStarted()),
         child: HomeTab(),
       ),
-      const SearchTab(),
-      const BrowseTab(),
-     UpdateProfileScreen(),
+      SearchTab(),
+      BrowseScreen(),
+      UpdateProfileScreen(),
     ];
 
     return Scaffold(
-      body: tabs[currentIndex],
+      body: IndexedStack(index: currentIndex, children: tabs),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 16, left: 9, right: 9),
         child: Container(
