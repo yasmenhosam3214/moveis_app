@@ -44,7 +44,7 @@ class MoveiesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: initialRoute,
+      initialRoute: HomeScreen.routeName,
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
         OnboardingScreen.routeName: (context) => OnboardingScreen(),
@@ -54,7 +54,10 @@ class MoveiesApp extends StatelessWidget {
         UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
         MovieDetailScreen.routeName: (context) => MovieDetailScreen(),
         BrowseScreen.routeName: (context) => const BrowseScreen(),
-        SearchTab.routeName: (context) => SearchTab(),
+    SearchTab.routeName: (context) => BlocProvider(
+    create: (_) => SearchCubit(SearchMethod()),
+      child: SearchTab(),
+    ),
       },
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,
