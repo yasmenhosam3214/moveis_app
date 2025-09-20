@@ -1,6 +1,4 @@
 // This is a generated file; do not edit or check into version control.
-FLUTTER_ROOT=E:\src\flutter
-FLUTTER_APPLICATION_PATH=E:\routeTasks\movies_app
 COCOAPODS_PARALLEL_CODE_SIGN=true
 FLUTTER_BUILD_DIR=build
 FLUTTER_BUILD_NAME=0.1.0
