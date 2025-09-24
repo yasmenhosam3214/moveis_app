@@ -164,6 +164,48 @@ class AuthService {
       }
     }
   }
+
+  Future<String> deleteProfile(String token) async {
+    final response = await http.delete(
+      Uri.parse("$baseUrl/profile"),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      },
+    );
+
+    if (response.statusCode == 200 ||
+        response.statusCode == 201 ||
+        response.statusCode == 204) {
+      if (response.body.isEmpty) {
+        return "Deleted Successfully";
+      }
+
+
+      final Map<String, dynamic> jsonData = jsonDecode(response.body);
+
+      if (jsonData.containsKey("message")) {
+        return jsonData["message"].toString();
+      }
+
+      return "Deleted Successfully";
+    }
+
+    try {
+      final Map<String, dynamic> errorJson = jsonDecode(response.body);
+      final message = errorJson["message"] ?? errorJson["error"];
+
+      if (message is List) {
+        throw ApiException(List<String>.from(message));
+      } else if (message is String) {
+        throw ApiException([message]);
+      } else {
+        throw ApiException(["Unknown error occurred"]);
+      }
+    } catch (_) {
+      throw ApiException(["Unexpected error"]);
+    }
+  }
 }
 
 class ApiException implements Exception {
