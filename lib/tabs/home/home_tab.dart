@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moveis_app/presentation/bloc/movies_bloc.dart';
 import 'package:moveis_app/presentation/bloc/movies_state.dart';
-
 import 'package:moveis_app/presentation/widgets/movie_card.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeTab extends StatelessWidget {
-  const HomeTab({super.key});
+import '../../data/models/movie_model.dart';
+
+class HomeTab extends StatefulWidget {
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<MoviesBloc>().repository.getMovies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +47,8 @@ class HomeTab extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
             );
+          }else{
+            getAllMovieGenres(state.movies);
           }
 
           return Stack(
@@ -57,6 +71,7 @@ class HomeTab extends StatelessWidget {
                   ),
                 ),
               ),
+
               SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,36 +81,46 @@ class HomeTab extends StatelessWidget {
                         "assets/images/AvailableNow.png",
                         width: 267,
                         height: 93,
+                        fit: BoxFit.contain,
                       ),
                     ),
                     const SizedBox(height: 20),
+
                     CarouselSlider(
                       items: movies.take(6).map((m) {
-                        return MovieCard(
-                          title: m.title,
-                          imageUrl: m.largeCoverImage,
-                          rating: m.rating,
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              "/MovieDetailScreen",
+                              arguments: m.id,
+                            );
+                          },
+                          child: MovieCard(
+                            title: m.title,
+                            imageUrl: m.largeCoverImage,
+                            rating: m.rating,
+                          ),
                         );
                       }).toList(),
                       options: CarouselOptions(
                         height: 320,
                         enlargeCenterPage: true,
                         viewportFraction: 0.5,
-                        enableInfiniteScroll: false,
                       ),
                     ),
+
                     Center(
                       child: Image.asset(
                         "assets/images/WatchNow.png",
                         width: 354,
                         height: 93,
+                        fit: BoxFit.contain,
                       ),
                     ),
+
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0,
-                        vertical: 12,
-                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: const [
@@ -127,18 +152,27 @@ class HomeTab extends StatelessWidget {
                         ],
                       ),
                     ),
+
                     SizedBox(
                       height: 180,
                       child: ListView.separated(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        padding: const EdgeInsets.all(12),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           final m = movies[index];
-                          return MovieCard(
-                            title: m.title,
-                            imageUrl: m.mediumCoverImage ?? m.largeCoverImage,
-                            rating: m.rating,
-                            small: true,
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                "/MovieDetailScreen",
+                                arguments: m.id,
+                              );
+                            },
+                            child: MovieCard(
+                              title: m.title,
+                              imageUrl: m.mediumCoverImage ?? m.largeCoverImage,
+                              rating: m.rating,
+                            ),
                           );
                         },
                         separatorBuilder: (_, __) => const SizedBox(width: 12),
@@ -153,5 +187,19 @@ class HomeTab extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void getAllMovieGenres(List<MovieModel> movies) async {
+    Set<String> genres = {};
+    for (var movie in movies) {
+      genres.addAll(movie.genres ?? []);
+    }
+    await SaveAllGenres(genres);
+  }
+
+  Future<void> SaveAllGenres(Set<String> genres) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    sharedPreferences.setStringList("all_genres", genres.toList());
+    print(genres.toList());
   }
 }

@@ -76,6 +76,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   backgroundColor: Colors.green,
                 ),
               );
+              Navigator.pushNamed(context, '/home');
             } else if (state is PassChanged) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
@@ -97,6 +98,27 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.response),
+                  backgroundColor: Colors.red,
+                ),
+              );
+            }
+
+            if (state is ProfileDeleted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text("Account deleted successfully"),
+                  backgroundColor: Colors.green,
+                ),
+              );
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                "/login",
+                (route) => false,
+              );
+            } else if (state is AuthFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.errors.join(", ")),
                   backgroundColor: Colors.red,
                 ),
               );
@@ -277,7 +299,9 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
       width: double.infinity,
       height: 55,
       child: DefaultElevatedbutton(
-        onPressed: () {},
+        onPressed: () {
+          context.read<AuthCubit>().deletedAccount();
+        },
         backgroundColor: AppColors.red,
         text: "Delete Account",
         foregroundColor: Colors.white,
@@ -300,7 +324,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     phone: phoneController.text,
                     avaterId: avatarId,
                   );
-                  print(avatarId);
                 },
           backgroundColor: AppColors.primary,
           text: state is AuthLoading ? "Updating..." : "Update Data",

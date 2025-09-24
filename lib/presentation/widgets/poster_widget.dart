@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class PosterWidget extends StatelessWidget {
@@ -11,11 +12,11 @@ class PosterWidget extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            image: DecorationImage(
-              image: NetworkImage(imgPath),
-              fit: BoxFit.cover,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+          child: CachedNetworkImage(
+            imageUrl: imgPath,
+            errorWidget: (context, url, error) => Center(
+              child: Icon(Icons.image_not_supported_sharp, color: Colors.white),
             ),
           ),
         ),
