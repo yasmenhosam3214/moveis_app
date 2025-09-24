@@ -24,7 +24,9 @@ void main() async {
 
   runApp(
     MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => AuthCubit(AuthService())..getProfile())],
+      providers: [
+        BlocProvider(create: (_) => AuthCubit(AuthService())..getProfile()),
+      ],
       child: MoveiesApp(
         initialRoute: token != null
             ? HomeScreen.routeName
@@ -43,7 +45,7 @@ class MoveiesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: initialRoute,
+      initialRoute: HomeScreen.routeName,
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
         OnboardingScreen.routeName: (context) => OnboardingScreen(),
