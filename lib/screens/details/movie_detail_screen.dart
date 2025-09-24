@@ -190,7 +190,7 @@ class MovieDetailScreen extends StatelessWidget {
                                       );
                                     },
                                     child: PosterWidget(
-                                      imgPath: item["medium_cover_image"],
+                                      imgPath: item["medium_cover_image"] ?? "",
                                       rating: item["rating"].toString(),
                                     ),
                                   );

@@ -8,6 +8,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   AuthCubit(this.authService) : super(AuthInitial());
 
+  // ---------------- REGISTER ----------------
   Future<void> register({
     required String username,
     required String email,
@@ -29,18 +30,21 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthSuccess(userResponse));
     } on ApiException catch (e) {
       emit(AuthFailure(e.messages));
-      print(e.messages);
     } catch (e) {
       emit(AuthFailure([e.toString()]));
     }
   }
 
-  Future<void> login({required String email, required String password}) async {
+  // ---------------- LOGIN ----------------
+  Future<void> login({
+    required String email,
+    required String password,
+  }) async {
     emit(AuthLoading());
     try {
-      final userResponseLogin = await authService.login(email, password);
-      await saveUserToken(userResponseLogin, email);
-      emit(AuthLoginSuccess(userResponseLogin));
+      final token = await authService.login(email, password);
+      await saveUserToken(token, email);
+      emit(AuthLoginSuccess(token));
     } on ApiException catch (e) {
       emit(AuthFailure(e.messages));
     } catch (e) {
@@ -48,21 +52,25 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  // ---------------- RESET PASSWORD ----------------
   Future<void> resetPass({
     required String oldPass,
     required String newPass,
   }) async {
     emit(AuthLoading());
     try {
-      final userToken = await getUserToken();
-      if (userToken == null) return;
+      final token = await getUserToken();
+      if (token == null) {
+        emit(PassFailedChanged("User not logged in"));
+        return;
+      }
 
-      final userResponseLogin = await authService.resetPassword(
+      final response = await authService.resetPassword(
         oldPass: oldPass,
         newPass: newPass,
-        token: userToken,
+        token: token,
       );
-      emit(PassChanged(userResponseLogin));
+      emit(PassChanged(response));
     } on ApiException catch (e) {
       emit(PassFailedChanged(e.messages.first));
     } catch (e) {
@@ -70,6 +78,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  // ---------------- UPDATE PROFILE ----------------
   Future<void> updateProfile({
     required int avaterId,
     required String phone,
@@ -77,22 +86,22 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     emit(AuthLoading());
     try {
-      final userToken = await getUserToken();
+      final token = await getUserToken();
       final email = await getUserEmail();
-      if (userToken == null || email == null) {
+      if (token == null || email == null) {
         emit(AuthFailure(["User not logged in"]));
         return;
       }
 
-      final responseMessage = await authService.updateProfile(
+      final response = await authService.updateProfile(
         email,
         avaterId,
         phone,
         name,
-        userToken,
+        token,
       );
 
-      emit(ProfileUpdated(responseMessage));
+      emit(ProfileUpdated(response));
     } on ApiException catch (e) {
       emit(AuthFailure(e.messages));
     } catch (e) {
@@ -100,6 +109,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  // ---------------- FETCH PROFILE ----------------
   Future<void> getProfile() async {
     emit(AuthLoading());
     try {
@@ -109,8 +119,8 @@ class AuthCubit extends Cubit<AuthState> {
         return;
       }
 
-      final userProfile = await authService.getProfile(token);
-      emit(ProfileFetched(userProfile));
+      final profile = await authService.getProfile(token);
+      emit(ProfileFetched(profile));
     } on ApiException catch (e) {
       emit(AuthFailure(e.messages));
     } catch (e) {
@@ -118,9 +128,34 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> saveUserToken(String userResponseLogin, String email) async {
+  // ---------------- DELETE ACCOUNT ----------------
+  Future<void> deletedAccount() async {
+    emit(AuthLoading());
+    try {
+      final token = await getUserToken();
+      if (token == null) {
+        emit(AuthFailureDelete("User not logged in"));
+        return;
+      }
+
+      final response = await authService.deleteProfile(token);
+
+      // Clear saved token on successful deletion
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
+
+      emit(ProfileDeleted(response));
+    } on ApiException catch (e) {
+      emit(AuthFailureDelete(e.messages.first));
+    } catch (e) {
+      emit(AuthFailureDelete(e.toString()));
+    }
+  }
+
+  // ---------------- TOKEN STORAGE ----------------
+  Future<void> saveUserToken(String token, String email) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('user_token', userResponseLogin);
+    await prefs.setString('user_token', token);
     await prefs.setString('user_email', email);
   }
 

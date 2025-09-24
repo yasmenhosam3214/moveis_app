@@ -19,6 +19,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
     emit(state.copyWith(status: MoviesStatus.loading, page: 1, movies: []));
     try {
       final movies = await repository.getMovies(page: 1);
+
       emit(
         state.copyWith(status: MoviesStatus.success, movies: movies, page: 1),
       );
@@ -85,4 +86,7 @@ class MoviesBloc extends Bloc<MoviesEvent, MoviesState> {
       );
     }
   }
+
+
+
 }

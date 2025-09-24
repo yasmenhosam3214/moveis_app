@@ -21,11 +21,10 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
   final token = prefs.getString('user_token');
-  print(token);
 
   runApp(
     MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => AuthCubit(AuthService()))],
+      providers: [BlocProvider(create: (_) => AuthCubit(AuthService())..getProfile())],
       child: MoveiesApp(
         initialRoute: token != null
             ? HomeScreen.routeName
@@ -44,7 +43,7 @@ class MoveiesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: HomeScreen.routeName,
+      initialRoute: initialRoute,
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
         OnboardingScreen.routeName: (context) => OnboardingScreen(),
@@ -54,10 +53,10 @@ class MoveiesApp extends StatelessWidget {
         UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
         MovieDetailScreen.routeName: (context) => MovieDetailScreen(),
         BrowseScreen.routeName: (context) => const BrowseScreen(),
-    SearchTab.routeName: (context) => BlocProvider(
-    create: (_) => SearchCubit(SearchMethod()),
-      child: SearchTab(),
-    ),
+        SearchTab.routeName: (context) => BlocProvider(
+          create: (_) => SearchCubit(SearchMethod()),
+          child: SearchTab(),
+        ),
       },
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.dark,

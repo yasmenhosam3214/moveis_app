@@ -1,5 +1,4 @@
 import 'package:moveis_app/data/models/user_model.dart';
-
 import '../models/user_profile.dart';
 
 abstract class AuthState {}
@@ -15,9 +14,9 @@ class AuthSuccess extends AuthState {
 }
 
 class AuthLoginSuccess extends AuthState {
-  final String userData;
+  final String token;
 
-  AuthLoginSuccess(this.userData);
+  AuthLoginSuccess(this.token);
 }
 
 class AuthFailure extends AuthState {
@@ -26,6 +25,7 @@ class AuthFailure extends AuthState {
   AuthFailure(this.errors);
 }
 
+// -------- Password --------
 class PassChanged extends AuthState {
   final String response;
 
@@ -38,6 +38,7 @@ class PassFailedChanged extends AuthState {
   PassFailedChanged(this.response);
 }
 
+// -------- Profile --------
 class ProfileUpdated extends AuthState {
   final String response;
 
@@ -50,3 +51,14 @@ class ProfileFetched extends AuthState {
   ProfileFetched(this.profile);
 }
 
+class ProfileDeleted extends AuthState {
+  final String response;
+
+  ProfileDeleted(this.response);
+}
+
+class AuthFailureDelete extends AuthState {
+  final String error;
+
+  AuthFailureDelete(this.error);
+}
