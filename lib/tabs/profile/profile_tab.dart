@@ -14,8 +14,6 @@ class ProfileTab extends StatefulWidget {
 class _ProfileTabState extends State<ProfileTab> {
   String image = '';
   String username = '';
-  String wishlist = '';
-  String history = '';
 
   @override
   void initState() {
@@ -28,7 +26,7 @@ class _ProfileTabState extends State<ProfileTab> {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
         if (state is ProfileFetched) {
-          image = 'assets/images/avatar_${state.profile.avaterId}.png';
+          image = "assets/images/onbording4.png";
           username = state.profile.name;
         }
         return DefaultTabController(
@@ -87,6 +85,7 @@ class _ProfileTabState extends State<ProfileTab> {
                       ),
                     ),
                     const SizedBox(height: 20),
+
                     Row(
                       children: [
                         Expanded(
@@ -141,7 +140,7 @@ class _ProfileTabState extends State<ProfileTab> {
                       child: const TabBar(
                         indicatorColor: AppColors.primary,
                         labelColor: Colors.white,
-                        unselectedLabelColor: Colors.white,
+                        unselectedLabelColor: Colors.white70,
                         tabs: [
                           Tab(icon: Icon(Icons.list), text: "Watch List"),
                           Tab(icon: Icon(Icons.history), text: "History"),
@@ -151,16 +150,95 @@ class _ProfileTabState extends State<ProfileTab> {
                     const SizedBox(height: 16),
 
                     SizedBox(
-                      height: 300,
+                      height: 500,
                       child: TabBarView(
-                        children: const [
-                          _EmptyState(
-                            icon: "assets/images/logosearch.png",
-                            message: "No items yet",
+                        children: [
+                          ListView.builder(
+                            padding: const EdgeInsets.all(8),
+                            itemCount: 9,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                color: Colors.grey[850],
+                                margin: const EdgeInsets.symmetric(vertical: 6),
+                                child: ListTile(
+                                  leading: ClipRRect(
+                                    borderRadius: BorderRadius.circular(8),
+                                    child: Image.asset(
+                                      "assets/images/onbording4.png",
+                                      width: 50,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  title: Text(
+                                    "Movie $index",
+                                    style: const TextStyle(color: Colors.white),
+                                  ),
+                                  subtitle: const Text(
+                                    "Your favorite",
+                                    style: TextStyle(color: Colors.white70),
+                                  ),
+                                  trailing: const Icon(
+                                    Icons.play_arrow,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                          _EmptyState(
-                            icon: "assets/images/logosearch.png",
-                            message: "No history yet",
+
+                          GridView.builder(
+                            padding: const EdgeInsets.all(8),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3,
+                                  childAspectRatio: 0.65,
+                                  crossAxisSpacing: 8,
+                                  mainAxisSpacing: 8,
+                                ),
+                            itemCount: 9,
+                            itemBuilder: (context, index) {
+                              return Stack(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(12),
+                                    child: Image.asset(
+                                      "assets/images/onbording4.png",
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 4,
+                                    right: 4,
+                                    child: Container(
+                                      padding: const EdgeInsets.all(4),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black54,
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Row(
+                                        children: const [
+                                          Icon(
+                                            Icons.star,
+                                            color: Colors.yellow,
+                                            size: 14,
+                                          ),
+                                          SizedBox(width: 2),
+                                          Text(
+                                            "7.7",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -197,30 +275,6 @@ class _ProfileStat extends StatelessWidget {
         const SizedBox(height: 6),
         Text(title, style: const TextStyle(color: Colors.white, fontSize: 17)),
       ],
-    );
-  }
-}
-
-class _EmptyState extends StatelessWidget {
-  final String icon;
-  final String message;
-
-  const _EmptyState({required this.icon, required this.message});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.asset(icon, width: 100),
-          const SizedBox(height: 10),
-          Text(
-            message,
-            style: const TextStyle(color: Colors.white70, fontSize: 16),
-          ),
-        ],
-      ),
     );
   }
 }
