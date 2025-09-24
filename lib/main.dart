@@ -25,7 +25,8 @@ void main() async {
 
   runApp(
     MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => AuthCubit(AuthService()))],
+      providers: [BlocProvider(create: (_) => AuthCubit(AuthService())),
+      ],
       child: MoveiesApp(
         initialRoute: token != null
             ? HomeScreen.routeName
