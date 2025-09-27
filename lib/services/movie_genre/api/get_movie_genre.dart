@@ -13,6 +13,7 @@ class GetMovieGenre {
 
       final moviesJson = decoded['data']['movies'] as List<dynamic>?;
 
+
       if (moviesJson != null) {
         return moviesJson.map((movie) => MovieModel.fromJson(movie)).toList();
       } else {

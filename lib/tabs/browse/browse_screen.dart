@@ -68,7 +68,48 @@ class _BrowseScreenState extends State<BrowseScreen> {
               children: [
                 _buildCategories(),
                 const SizedBox(height: 12),
-                _buildMovieGrid(),
+
+                BlocBuilder<GenreCubit, GenreSate>(
+                  builder: (context, genreState) {
+                    if (genreState is GenreSateLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    if (genreState is GenreSateError) {
+                      return Center(
+                        child: Text(
+                          genreState.msg,
+                          style: const TextStyle(color: Colors.red),
+                        ),
+                      );
+                    }
+
+                    if (genreState is GenreSateLoaded) {
+                      if (genreState.movies.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            "No Movies in this Genre",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        );
+                      }
+                      // show genre filtered movies
+                      return _buildMovieGrid(genreState.movies);
+                    }
+
+                    // default fallback → show all movies from MoviesBloc
+                    if (movies.isNotEmpty) {
+                      return _buildMovieGrid(movies);
+                    }
+
+                    return const Center(
+                      child: Text(
+                        "No Movies Found",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -104,11 +145,14 @@ class _BrowseScreenState extends State<BrowseScreen> {
                 });
               },
               child: Container(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 5,
+                ),
                 decoration: BoxDecoration(
-                  color:
-                  selected ? const Color(0xFFF6BD00) : const Color(0xFF121312),
+                  color: selected
+                      ? const Color(0xFFF6BD00)
+                      : const Color(0xFF121312),
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: const Color(0xFFF6BD00), width: 2),
                 ),
@@ -129,20 +173,20 @@ class _BrowseScreenState extends State<BrowseScreen> {
     );
   }
 
-  Widget _buildMovieGrid() {
+  Widget _buildMovieGrid(List<MovieModel> movieList) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: Column(
         children: [
-          for (int i = 0; i < movies.length; i += 2)
+          for (int i = 0; i < movieList.length; i += 2)
             Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: Row(
                 children: [
-                  Expanded(child: _buildMovieItem(movies[i])),
+                  Expanded(child: _buildMovieItem(movieList[i])),
                   const SizedBox(width: 12),
-                  if (i + 1 < movies.length)
-                    Expanded(child: _buildMovieItem(movies[i + 1])),
+                  if (i + 1 < movieList.length)
+                    Expanded(child: _buildMovieItem(movieList[i + 1])),
                 ],
               ),
             ),
@@ -154,8 +198,7 @@ class _BrowseScreenState extends State<BrowseScreen> {
   Widget _buildMovieItem(MovieModel movie) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, "/MovieDetailScreen",
-            arguments: movie.id);
+        Navigator.pushNamed(context, "/MovieDetailScreen", arguments: movie.id);
       },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
@@ -171,21 +214,18 @@ class _BrowseScreenState extends State<BrowseScreen> {
               top: 6,
               left: 6,
               child: Container(
-                padding:
-                const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 3),
                 decoration: BoxDecoration(
                   color: const Color(0xFF282A28).withOpacity(0.8),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.star,
-                        color: Color(0xFFF6BD00), size: 14),
+                    const Icon(Icons.star, color: Color(0xFFF6BD00), size: 14),
                     const SizedBox(width: 3),
                     Text(
                       movie.rating.toString(),
-                      style:
-                      const TextStyle(color: Colors.white, fontSize: 12),
+                      style: const TextStyle(color: Colors.white, fontSize: 12),
                     ),
                   ],
                 ),

@@ -6,6 +6,8 @@ import 'package:moveis_app/screens/onboarding/onboarding_screen.dart';
 import 'package:moveis_app/screens/auth/login_screen.dart';
 import 'package:moveis_app/screens/auth/signup_screen.dart';
 import 'package:moveis_app/screens/auth/forget_pass/forget_password_screen.dart';
+import 'package:moveis_app/services/fav_service/fav_cubit.dart';
+import 'package:moveis_app/services/fav_service/fav_services.dart';
 import 'package:moveis_app/tabs/browse/browse_screen.dart';
 import 'package:moveis_app/tabs/profile/update_profile_screen.dart';
 import 'package:moveis_app/services/auth_service/cubit/user_cubit.dart';
@@ -45,7 +47,7 @@ class MoveiesApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: HomeScreen.routeName,
+      initialRoute: initialRoute,
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
         OnboardingScreen.routeName: (context) => OnboardingScreen(),
@@ -53,7 +55,10 @@ class MoveiesApp extends StatelessWidget {
         SignupScreen.routeName: (context) => SignupScreen(),
         ForgetPasswordScreen.routeName: (context) => ForgetPasswordScreen(),
         UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
-        MovieDetailScreen.routeName: (context) => MovieDetailScreen(),
+        MovieDetailScreen.routeName: (context) => BlocProvider(
+          create: (context) => FavCubit(FavService()),
+          child: MovieDetailScreen(),
+        ),
         BrowseScreen.routeName: (context) => const BrowseScreen(),
         SearchTab.routeName: (context) => BlocProvider(
           create: (_) => SearchCubit(SearchMethod()),
