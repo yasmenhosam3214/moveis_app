@@ -8,6 +8,8 @@ import 'package:moveis_app/presentation/bloc/movies_event.dart';
 import 'package:moveis_app/screens/home/home_tab.dart';
 import 'package:moveis_app/services/auth_service/api/auth_service.dart';
 import 'package:moveis_app/services/auth_service/cubit/user_cubit.dart';
+import 'package:moveis_app/services/fav_service/fav_cubit.dart';
+import 'package:moveis_app/services/fav_service/fav_services.dart';
 import 'package:moveis_app/services/movie_genre/api/get_movie_genre.dart';
 import 'package:moveis_app/services/movie_genre/cubit/genre_cubit.dart';
 import 'package:moveis_app/tabs/browse/browse_screen.dart';
@@ -63,7 +65,10 @@ class _HomeScreenState extends State<HomeScreen> {
         create: (BuildContext context) {
           return AuthCubit(AuthService());
         },
-        child: ProfileTab(),
+        child: BlocProvider(
+          create: (context) => FavCubit(FavService()),
+          child: ProfileTab(),
+        ),
       ),
     ];
 
